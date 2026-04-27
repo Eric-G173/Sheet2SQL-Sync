@@ -43,18 +43,19 @@ def load_table():
 
     df = pd.read_sql("SELECT * FROM task;", conn)
     conn.close()
+    print(df.columns)
     return df
 
-def df_to_sheet_values(df):
+def df_to_sheets(df):
     header = list(df.columns)
     rows = df.values.tolist()
     return [header] + rows
 
-df = load_table()
-values = df_to_sheet_values(df)
-
-sheet.clear()
-sheet.update(values, "A1")
+if __name__ == "__main__":   
+    df = load_table()
+    values = df_to_sheets(df)
+    sheet.clear()
+    sheet.update(values, "A1")
 
 
 #conn.commit() #This commits any database updates
