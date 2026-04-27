@@ -1,0 +1,5 @@
+.idea
+.venv
+oracleJdk-26
+.env
+database_Creds.json
