@@ -8,6 +8,10 @@ Each file acts as a command that executes different functions such as loading th
 - Database_Load.py - This file will load your postgreSQL database into google sheets.
 - Sheets_Transfer.py - This file will send changes made in google sheets to your database.
 
+## Instructions
+- Ensure you remove "example" from .env.example, as well as database_Creds.example.json
+- Fill out the login information in the .env and database_Creds. The env file is postgreSQL, while databas_Creds is google sheets
+
 ## Planned Features
 - Column creation/editing
 - Security additions
