@@ -39,13 +39,10 @@ def df_to_sheets(df):
 if __name__ == "__main__":   
     import gspread
     from google.oauth2.service_account import Credentials
-    df = load_table()
-    values = df_to_sheets(df)
-    sheet.clear()
-    sheet.update(values, "A1")
+
     SCOPES = [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive"
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive"
     ]
 
     creds = Credentials.from_service_account_file(
@@ -54,8 +51,13 @@ if __name__ == "__main__":
     )
 
     client = gspread.authorize(creds)
-
     sheet = client.open("Project SQL UI").sheet1
+
+    df = load_table()
+    values = df_to_sheets(df)
+
+    sheet.clear()
+    sheet.update(values, "A1")
 
 #conn.commit() #This commits any database updates
 
