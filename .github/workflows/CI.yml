@@ -20,18 +20,18 @@ jobs:
           import pandas as pd
           from unittest.mock import patch, MagicMock
  
-          # --- database_load ---
+          # --- database_Load ---
  
           def test_load_table():
               mock_df = pd.DataFrame({"id": [1], "task_name": ["A"], "full_name": ["Alice"], "updated_at": ["2024-01-01"]})
               with patch("psycopg2.connect") as mock_conn, patch("pandas.read_sql", return_value=mock_df):
-                  from Database_load import load_table
+                  from Database_Load import load_table
                   result = load_table()
               assert isinstance(result, pd.DataFrame)
               mock_conn.return_value.close.assert_called_once()
  
           def test_df_to_sheets():
-              from Database_load import df_to_sheets
+              from Database_Load import df_to_sheets
               df = pd.DataFrame({"id": [1], "task_name": ["A"], "full_name": ["Alice"], "updated_at": ["2024-01-01"]})
               result = df_to_sheets(df)
               assert result[0] == ["id", "task_name", "full_name", "updated_at"]
