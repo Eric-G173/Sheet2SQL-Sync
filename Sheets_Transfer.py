@@ -1,5 +1,4 @@
 import psycopg2
-import gspread
 from google.oauth2.service_account import Credentials
 import pandas as pd
 from dotenv import load_dotenv
@@ -14,6 +13,7 @@ DATABASE_NAME = os.getenv("DB_NAME")
 PASSWORD = os.getenv("DB_PASSWORD")
 
 def get_sheet():
+    import gspread
     SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive"
