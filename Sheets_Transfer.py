@@ -12,16 +12,21 @@ HOST = os.getenv("HOST")
 PORT = os.getenv("PORT")
 DATABASE_NAME = os.getenv("DB_NAME")
 PASSWORD = os.getenv("DB_PASSWORD")
-SCOPES = [
+
+def get_sheet():
+    SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive"
-]
+    ]
 
-creds = Credentials.from_service_account_file(
+    creds = Credentials.from_service_account_file(
     "database_Creds.json",
     scopes=SCOPES
-)
+    )
 
+    client = gspread.authorize(creds)
+    return client.open("Project SQL UI").sheet1
+    
 def apply_sheet_to_db(updates, changes, deletes):
     conn = psycopg2.connect(
         host=os.getenv("HOST"),
@@ -95,19 +100,20 @@ def normalize_timestamp(value):
 
 client = gspread.authorize(creds)
 
-sheet = client.open("Project SQL UI").sheet1
+if __name__ == "__main__":   
+    sheet = get_sheet()
 
-list_of_lists = sheet.get_all_records()
-for row in list_of_lists:
-    if row["updated_at"] == "":
-        row["updated_at"] = None
-print(list_of_lists)
-Database_Table = load_table()
-sql_records = Database_Table.to_dict(orient="records")
+    list_of_records = sheet.get_all_records()
+    for row in list_of_records:
+        if row["updated_at"] == "":
+            row["updated_at"] = None
 
-if list_of_lists != sql_records:
-    print("Not matching")
-    updates, changes, deletes = detect_changes(list_of_lists, sql_records)
-    apply_sheet_to_db(updates, changes, deletes)
-else:
-    print("Matching")
+    sql_df = load_table()
+    sql_records = sql_df.to_dict(orient="records")
+
+    if list_of_records != sql_records:
+        print("Not matching")
+        updates, changes, deletes = detect_changes(list_of_records, sql_records)
+        apply_sheet_to_db(updates, changes, deletes)
+    else:
+        print("Matching")

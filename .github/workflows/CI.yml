@@ -12,7 +12,7 @@ jobs:
         with:
           python-version: "3.11"
  
-      - run: pip install pandas psycopg2-binary pytest
+      - run: pip install pandas psycopg2-binary pytest python-dotenv
  
       - name: Run tests
         run: |
