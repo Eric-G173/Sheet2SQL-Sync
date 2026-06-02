@@ -97,9 +97,6 @@ def normalize_timestamp(value):
     return value if value not in ("", None) else None
 
 
-
-client = gspread.authorize(creds)
-
 if __name__ == "__main__":   
     sheet = get_sheet()
 
