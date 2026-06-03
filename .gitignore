@@ -3,3 +3,5 @@
 oracleJdk-26
 .env
 database_Creds.json
+__pycache__
+.vscode
