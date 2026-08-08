@@ -1,9 +1,10 @@
-import psycopg2
+import mysql.connector
 import pandas as pd
 from dotenv import load_dotenv
 import os
 from Database_Load import load_table
-
+import warnings
+warnings.filterwarnings("ignore", message=".*only supports SQLAlchemy.*")
 load_dotenv()
 USERNAME = os.getenv("DB_USER")
 HOST = os.getenv("HOST")
@@ -28,7 +29,7 @@ def get_sheet():
     return client.open("Project SQL UI").sheet1
     
 def apply_sheet_to_db(updates, changes, deletes):
-    conn = psycopg2.connect(
+    conn = mysql.connector.connect(
         host=os.getenv("HOST"),
         database=os.getenv("DB_NAME"),
         user=os.getenv("DB_USER"),
@@ -36,6 +37,7 @@ def apply_sheet_to_db(updates, changes, deletes):
         port=os.getenv("PORT")
     )
     cur = conn.cursor()
+  
 
     # INSERT new rows
     for _, row in updates.iterrows():
