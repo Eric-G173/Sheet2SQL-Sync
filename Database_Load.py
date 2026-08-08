@@ -17,9 +17,12 @@ SCOPES = [
     "https://www.googleapis.com/auth/drive"
 ]
 
-creds = Credentials.from_service_account_file("database_Creds.json", scopes=SCOPES)
-client = gspread.authorize(creds)
-sheet = client.open("Project SQL UI").sheet1
+def get_sheet():
+    """Authenticates with Google Sheets and returns the worksheet.
+    Only runs when called — not at import time."""
+    creds = Credentials.from_service_account_file("database_Creds.json", scopes=SCOPES)
+    client = gspread.authorize(creds)
+    return client.open("Project SQL UI").sheet1
 
 
 def load_table():
@@ -45,5 +48,6 @@ def df_to_sheets(df):
 if __name__ == "__main__":
     df = load_table()
     values = df_to_sheets(df)
+    sheet = get_sheet()
     sheet.clear()
     sheet.update(values, "A1")

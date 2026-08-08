@@ -2,7 +2,7 @@ import mysql.connector
 import pandas as pd
 from dotenv import load_dotenv
 import os
-from Database_Load import load_table
+from Database_Load import load_table, get_sheet
 import warnings
 warnings.filterwarnings("ignore", message=".*only supports SQLAlchemy.*")
 load_dotenv()
@@ -12,21 +12,6 @@ PORT = os.getenv("PORT")
 DATABASE_NAME = os.getenv("DB_NAME")
 PASSWORD = os.getenv("DB_PASSWORD")
 
-def get_sheet():
-    import gspread
-    from google.oauth2.service_account import Credentials
-    SCOPES = [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive"
-    ]
-
-    creds = Credentials.from_service_account_file(
-    "database_Creds.json",
-    scopes=SCOPES
-    )
-
-    client = gspread.authorize(creds)
-    return client.open("Project SQL UI").sheet1
     
 def apply_sheet_to_db(updates, changes, deletes):
     conn = mysql.connector.connect(
