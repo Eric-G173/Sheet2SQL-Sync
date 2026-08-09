@@ -5,24 +5,25 @@ import pandas as pd
 from dotenv import load_dotenv
 import os
 import warnings
+
+import config
+
 warnings.filterwarnings("ignore", message=".*only supports SQLAlchemy.*")
 load_dotenv()
+
 USERNAME = os.getenv("DB_USER")
 HOST = os.getenv("HOST")
 PORT = os.getenv("PORT")
 DATABASE_NAME = os.getenv("DB_NAME")
 PASSWORD = os.getenv("DB_PASSWORD")
-SCOPES = [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive"
-]
+
 
 def get_sheet():
     """Authenticates with Google Sheets and returns the worksheet.
     Only runs when called — not at import time."""
-    creds = Credentials.from_service_account_file("database_Creds.json", scopes=SCOPES)
+    creds = Credentials.from_service_account_file(config.CREDS_FILE, scopes=config.SCOPES)
     client = gspread.authorize(creds)
-    return client.open("Project SQL UI").sheet1
+    return client.open(config.SHEET_NAME).get_worksheet(config.WORKSHEET_INDEX)
 
 
 def load_table():
@@ -33,7 +34,7 @@ def load_table():
         password=PASSWORD,
         port=PORT
     )
-    df = pd.read_sql("SELECT * FROM task;", conn)
+    df = pd.read_sql(f"SELECT * FROM {config.TABLE_NAME};", conn)
     conn.close()
     print(df.columns)
     return df
@@ -43,7 +44,6 @@ def df_to_sheets(df):
     header = list(df.columns)
     rows = df.values.tolist()
     return [header] + rows
-
 
 if __name__ == "__main__":
     df = load_table()
