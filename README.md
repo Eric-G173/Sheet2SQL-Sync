@@ -2,7 +2,25 @@
 
 A two-way sync tool between a Google Sheet and a MySQL table: edit either side, run a script, and it detects inserts, updates, deletes, and applies them, with an automatic backup snapshot before every write.
 
+
+
 # Features
+
+**Database_Load Example**
+
+
+
+https://github.com/user-attachments/assets/032197bf-e8b5-41dd-a8f6-258637842f2f
+
+
+**Sheets_Transfer Example**
+
+
+
+https://github.com/user-attachments/assets/cf7b28e2-4975-4661-80ee-c06631218362
+
+
+
 - Detects new, changed, and deleted rows by comparing a Google Sheet against a MySQL table
 - Push Sheet edits into MySQL (Sheets_Transfer.py), or pull the full MySQL table back into the Sheet (Database_Load.py)
 - Automatic local JSON backup of the table before any write, with a one-command restore
