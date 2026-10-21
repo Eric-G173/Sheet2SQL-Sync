@@ -49,7 +49,7 @@ DATA_COLUMNS = ["task_name", "full_name"]
 ```
 # Running locally
 ```
-git clone https://github.com/yourusername/Sheet2SQL-Sync.git
+git clone https://github.com/Eric-G173/Sheet2SQL-Sync.git
 cd Sheet2SQL-Sync
 python -m venv .venv
 source .venv/bin/activate      # Windows: .venv\Scripts\Activate.ps1
